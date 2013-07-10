@@ -30,6 +30,7 @@ except ImportError:
     from pymongo import Connection    
 
 from pymongo.errors import InvalidURI, ConnectionFailure, OperationFailure
+from bson.errors import InvalidDocument
 
 class DocManager():
     """The DocManager class creates a connection to the backend engine and
@@ -65,7 +66,7 @@ class DocManager():
         database, coll = doc['ns'].split('.', 1)
         try:
             self.mongo[database][coll].save(doc)
-        except OperationFailure:
+        except (OperationFailure, InvalidDocument):
             raise SystemError    
 
     def remove(self, doc):
