@@ -49,10 +49,8 @@ class DocManager():
         """
         try:
             self.mongo = Connection(url)
-        except InvalidURI:
+        except (InvalidURI, ConnectionFailure):
             raise SystemError
-        except ConnectionFailure:
-            raise SystemError    
         self.unique_key = unique_key
 
     def stop(self):
